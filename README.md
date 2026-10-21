@@ -1,3 +1,3 @@
-Caso 3:
-    Prioridade A = 7     Tempo A = 1500 ms
-    Prioridade B = 5     Tempo B = 1000 ms
+Caso 2:
+    Prioridade A = 5     Tempo A = 1500 ms
+    Prioridade B = 7     Tempo B = 1000 ms
