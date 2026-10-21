@@ -65,7 +65,7 @@ void thread_B(void *p1, void *p2, void *p3)
         gpio_pin_set_dt(&ledB, 0);  // Desliga LED vermelho
 
         uint32_t elapsed = end_cycles - start_cycles;
-        uint32_t tempo_ms = k_cyc_to_us_near32(elapsed);
+        uint32_t tempo_ms = k_cyc_to_ms_near32(elapsed);
 
         printk("Thread B -> Tempo de execucao: %u ms (%u ciclos)\n", tempo_ms, elapsed);
 
