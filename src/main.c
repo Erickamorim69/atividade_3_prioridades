@@ -13,10 +13,9 @@ static const struct gpio_dt_spec ledB = GPIO_DT_SPEC_GET(LED_B_NODE, gpios);
 // --- Prioridades e tempos ---
 #define PRIO_THREAD_A 7   // Maior prioridade (número menor)
 #define PRIO_THREAD_B 5   // Menor prioridade
-#define TEMPO_A_MS   1500   // Thread A dorme
-#define TEMPO_B_MS   1000   // Thread B dorme
+#define TEMPO_A_MS   1000   // Thread A dorme
+#define TEMPO_B_MS   1500   // Thread B dorme
 
-bool Bativado = false;
 
 // ----------------------------------------------------
 // THREAD A — Tarefa curta, alta prioridade
@@ -51,7 +50,6 @@ void thread_B(void *p1, void *p2, void *p3)
 {
     while (1) {
         gpio_pin_set_dt(&ledB, 1);  // Liga LED vermelho
-        Bativado = true;
 
         // Simula processamento mais longo 
 
@@ -63,7 +61,7 @@ void thread_B(void *p1, void *p2, void *p3)
             }
         }
         uint32_t end_cycles = k_cycle_get_32();
-        Bativado = false;
+
         gpio_pin_set_dt(&ledB, 0);  // Desliga LED vermelho
 
         uint32_t elapsed = end_cycles - start_cycles;
