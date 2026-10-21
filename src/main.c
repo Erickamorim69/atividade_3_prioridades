@@ -11,8 +11,8 @@ static const struct gpio_dt_spec ledA = GPIO_DT_SPEC_GET(LED_A_NODE, gpios);
 static const struct gpio_dt_spec ledB = GPIO_DT_SPEC_GET(LED_B_NODE, gpios);
 
 // --- Prioridades e tempos ---
-#define PRIO_THREAD_A 5   // Maior prioridade (número menor)
-#define PRIO_THREAD_B 7   // Menor prioridade
+#define PRIO_THREAD_A 7   // Maior prioridade (número menor)
+#define PRIO_THREAD_B 5   // Menor prioridade
 #define TEMPO_A_MS   1500   // Thread A dorme
 #define TEMPO_B_MS   1000   // Thread B dorme
 
@@ -34,9 +34,9 @@ void thread_A(void *p1, void *p2, void *p3)
 
 
         uint32_t elapsed = end_cycles - start_cycles;
-        uint32_t tempo_us = k_cyc_to_us_near32(elapsed);
+        uint32_t tempo_ms = k_cyc_to_ms_near32(elapsed);
 
-        printk("Thread A -> Tempo de execucao: %u us (%u ciclos)\n", tempo_us, elapsed);
+        printk("Thread A -> Tempo de execucao: %u ms (%u ciclos)\n", tempo_ms, elapsed);
 
         k_msleep(TEMPO_A_MS);
     }
@@ -64,9 +64,9 @@ void thread_B(void *p1, void *p2, void *p3)
         gpio_pin_set_dt(&ledB, 0);  // Desliga LED vermelho
 
         uint32_t elapsed = end_cycles - start_cycles;
-        uint32_t tempo_us = k_cyc_to_us_near32(elapsed);
+        uint32_t tempo_ms = k_cyc_to_ms_near32(elapsed);
 
-        printk("Thread B -> Tempo de execucao: %u us (%u ciclos)\n", tempo_us, elapsed);
+        printk("Thread B -> Tempo de execucao: %u ms (%u ciclos)\n", tempo_ms, elapsed);
 
         k_msleep(TEMPO_B_MS);       // Dorme um pouco
     }
