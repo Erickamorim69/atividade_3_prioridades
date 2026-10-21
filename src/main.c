@@ -22,17 +22,23 @@ static const struct gpio_dt_spec ledB = GPIO_DT_SPEC_GET(LED_B_NODE, gpios);
 void thread_A(void *p1, void *p2, void *p3)
 {
     while (1) {
+        gpio_pin_set_dt(&ledA, 1);
 
-        gpio_pin_set_dt(&ledA, 1);  // Liga LED verde
+        uint32_t start_cycles = k_cycle_get_32();
 
-        // Simula processamento rápido 
         for (volatile int i = 0; i < 200000; i++) {}
 
-        gpio_pin_set_dt(&ledA, 0);  // Desliga LED verde
-   
-        k_msleep(TEMPO_A_MS);       // Dorme — libera CPU
+        uint32_t end_cycles = k_cycle_get_32();
+
+        gpio_pin_set_dt(&ledA, 0);
 
 
+        uint32_t elapsed = end_cycles - start_cycles;
+        uint32_t tempo_us = k_cyc_to_us_near32(elapsed);
+
+        printk("Thread A -> Tempo de execucao: %u us (%u ciclos)\n", tempo_us, elapsed);
+
+        k_msleep(TEMPO_A_MS);
     }
 }
 
@@ -45,13 +51,23 @@ void thread_B(void *p1, void *p2, void *p3)
         gpio_pin_set_dt(&ledB, 1);  // Liga LED vermelho
 
         // Simula processamento mais longo 
+
+        uint32_t start_cycles = k_cycle_get_32();
+
         for (volatile int i = 0; i < 10000000; i++) {
             if (i % 100000 == 0) {
                 // Aqui não imprimimos nada — apenas ocupamos a CPU
             }
         }
+        uint32_t end_cycles = k_cycle_get_32();
 
         gpio_pin_set_dt(&ledB, 0);  // Desliga LED vermelho
+
+        uint32_t elapsed = end_cycles - start_cycles;
+        uint32_t tempo_us = k_cyc_to_us_near32(elapsed);
+
+        printk("Thread B -> Tempo de execucao: %u us (%u ciclos)\n", tempo_us, elapsed);
+
         k_msleep(TEMPO_B_MS);       // Dorme um pouco
     }
 }
