@@ -1,4 +1,3 @@
-Atividade 4:
-    Sistema de botão implementado.
-    Botão ligado no pino GND e PTA16 da placa.
-    Pressionar o botão faz o led azul mudar de estado.
+Atividade 5:
+    Substituição dos comandos com printk para LOGGING
+    Implementação de temporizadores para auxiliar no debug
